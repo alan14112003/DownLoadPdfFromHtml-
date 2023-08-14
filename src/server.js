@@ -35,7 +35,7 @@ app.post(
 
     const images = req.files;
     const doc = new PDFDocument({ size: "A4" });
-    doc.pipe(fs.createWriteStream("./public/output.pdf"));
+    doc.pipe(fs.createWriteStream("/src/public/output.pdf"));
     for (const image of images) {
       doc.image(image.path);
       doc.addPage({ size: "A4" });
