@@ -34,11 +34,11 @@ app.post(
     const currentDomain = req.headers.host;
 
     const images = req.files;
-    const doc = new PDFDocument({ size: "A4" });
+    const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream(__dirname + "/public/output.pdf"));
     for (const image of images) {
-      doc.image(image.path);
-      doc.addPage({ size: "A4" });
+      doc.image(image.path, 0, 0);
+      doc.addPage();
     }
     doc.end();
 
