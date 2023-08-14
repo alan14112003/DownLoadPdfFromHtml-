@@ -30,8 +30,15 @@ app.get("/", (req, res, next) => {
 app.post(
   "/images-to-pdf",
   (req, res, next) => {
-    fs.rmdirSync(__dirname, "/uploads");
-    fs.mkdirSync(__dirname, "/uploads");
+    const directoryPath = __dirname + "/uploads";
+    // Lấy danh sách các tệp trong thư mục
+    const files = fs.readdirSync(directoryPath);
+
+    // Xóa từng tệp
+    files.forEach((file) => {
+      const filePath = directoryPath + "/" + file;
+      fs.unlinkSync(filePath);
+    });
     next();
   },
   upload.array("images", 10000),
