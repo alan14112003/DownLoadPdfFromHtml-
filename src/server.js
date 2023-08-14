@@ -1,10 +1,10 @@
-const PDFDocument = require("pdfkit");
 const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const upload = multer({ dest: "src/uploads/" });
 const cors = require("cors");
 const fs = require("fs");
+const puppeteer = require("puppeteer");
 
 function isValidUrl(input = "") {
   return !!input.includes("://elib.vku.udn.vn:8080/ViewPDFOnline/document.php");
@@ -62,11 +62,18 @@ app.post(
     html += `
   </body>
 </html>`;
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    // We set the page content as the generated html by handlebars
+    await page.setContent(html);
+    // We use pdf function to generate the pdf in the same folder as this file.
+    await page.pdf({ path: __dirname + "/public/output.pdf", format: "A4" });
+    await browser.close();
 
     return res.json({
       status: false,
       message: "url hợp lệ",
-      body: html,
+      body: currentDomain + "/output.pdf",
     });
   }
 );
