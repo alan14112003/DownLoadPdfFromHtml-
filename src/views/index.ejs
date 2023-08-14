@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    xin chào mọi người nhập url trang cần down load pdf:
+    <input type="text" name="url" id="form-url" />
+    <button>Oke</button>
+    <script>
+      async function convertCanvasToImage(canvas) {
+        imageDataUrl = canvas.toDataURL("image/png");
+        const blobData = await (await fetch(imageDataUrl)).blob();
+        return new File([blobData], canvas.id + ".png");
+      }
+      const main = async () => {
+        const canvases = document.querySelectorAll(
+          ".flowpaper_interactivearea"
+        );
+
+        const images = new DataTransfer();
+        let index = 0;
+        for (const canvas of canvases) {
+          if (canvas.style.display === "block") {
+            images.items.add(await convertCanvasToImage(canvas));
+          }
+        }
+        const formData = new FormData();
+        formData.append("images", images);
+
+        const data = await fetch("http://localhost:80/images-to-pdf").then(
+          (res) => res.json()
+        );
+        console.log(data);
+      };
+      main();
+    </script>
+  </body>
+</html>
