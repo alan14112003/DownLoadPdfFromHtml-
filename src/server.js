@@ -38,7 +38,6 @@ app.post(
     doc.pipe(fs.createWriteStream(__dirname + "/public/output.pdf"));
     for (const image of images) {
       doc.image(image.path, 0, 0, {
-        fit: [100, 100],
         align: "center",
         valign: "center",
       });
