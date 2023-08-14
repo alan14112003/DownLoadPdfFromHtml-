@@ -40,6 +40,7 @@ app.post(
       doc.image(image.path, 0, 0, {
         align: "center",
         valign: "center",
+        width: "100%",
       });
       doc.addPage({ size: "A4" });
     }
