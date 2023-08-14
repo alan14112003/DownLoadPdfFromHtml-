@@ -32,10 +32,10 @@ app.post(
     const images = req.files;
     const doc = new PDFDocument({ size: "A4" });
     doc.pipe(fs.createWriteStream("/src/output.pdf"));
-    for (const image of images) {
-      // doc.image()
-      console.log(image);
-    }
+    // for (const image of images) {
+    //   // doc.image()
+    //   console.log(image);
+    // }
 
     return res.json({
       status: false,
