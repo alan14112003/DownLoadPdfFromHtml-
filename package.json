@@ -1,5 +1,5 @@
 {
-  "name": "Document VKU to PDF",
+  "name": "DocumentVKUToPDF",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
