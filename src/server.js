@@ -5,7 +5,6 @@ const multer = require("multer");
 const upload = multer({ dest: "src/uploads/" });
 const cors = require("cors");
 const fs = require("fs");
-const { URL } = require("url");
 
 function isValidUrl(input = "") {
   return !!input.includes("://elib.vku.udn.vn:8080/ViewPDFOnline/document.php");
@@ -32,8 +31,7 @@ app.post(
   "/images-to-pdf",
   upload.array("images", 10000),
   async (req, res, next) => {
-    const currentUrl = new URL(req.url);
-    const currentDomain = currentUrl.host;
+    const currentDomain = req.headers.host;
 
     const images = req.files;
     const doc = new PDFDocument({ size: "A4" });
