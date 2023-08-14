@@ -29,6 +29,10 @@ app.get("/", (req, res, next) => {
 
 app.post(
   "/images-to-pdf",
+  (req, res, next) => {
+    fs.rmdirSync(__dirname, "/uploads");
+    fs.mkdirSync(__dirname, "/uploads");
+  },
   upload.array("images", 10000),
   async (req, res, next) => {
     const currentDomain = req.headers.host;
