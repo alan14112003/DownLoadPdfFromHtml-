@@ -30,9 +30,12 @@
         const formData = new FormData();
         formData.append("images", images);
 
-        const data = await fetch("http://localhost:80/images-to-pdf").then(
-          (res) => res.json()
-        );
+        const data = await fetch(
+          "https://downloadpdffromhtml.onrender.com/images-to-pdf",
+          {
+            method: "POST",
+          }
+        ).then((res) => res.json());
         console.log(data);
       };
       main();
