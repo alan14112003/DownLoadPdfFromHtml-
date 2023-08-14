@@ -31,11 +31,11 @@ app.post(
   async (req, res, next) => {
     const images = req.files;
     const doc = new PDFDocument({ size: "A4" });
-    doc.pipe(fs.createWriteStream("/src/output.pdf"));
-    // for (const image of images) {
-    //   // doc.image()
-    //   console.log(image);
-    // }
+    doc.pipe(fs.createWriteStream("./output.pdf"));
+    for (const image of images) {
+      doc.image(image.path);
+      doc.addPage({ size: "A4" });
+    }
 
     return res.json({
       status: false,
