@@ -32,6 +32,7 @@ app.post(
   (req, res, next) => {
     fs.rmdirSync(__dirname, "/uploads");
     fs.mkdirSync(__dirname, "/uploads");
+    next();
   },
   upload.array("images", 10000),
   async (req, res, next) => {
