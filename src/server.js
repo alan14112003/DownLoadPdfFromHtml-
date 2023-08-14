@@ -52,6 +52,7 @@ app.post(
 
     for (const image of images) {
       const metadata = await sharp(image.path).metadata();
+      console.log({ with: metadata.width, height: metadata.height });
       doc.addPage({ with: metadata.width, height: metadata.height });
       doc.image(image.path, 0, 0, {
         align: "center",
