@@ -46,23 +46,27 @@ app.post(
     const currentDomain = req.headers.host;
 
     const images = req.files;
-    const doc = new PDFDocument();
-    doc.pipe(fs.createWriteStream(__dirname + "/public/output.pdf"));
+    let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+`;
 
     for (const image of images) {
-      doc.image(image.path, 0, 0, {
-        align: "center",
-        valign: "center",
-        width: "595.28",
-      });
-      doc.addPage();
+      html += `<img src="${image.path}" style="width: 100%"/>`;
     }
-    doc.end();
+    html += `
+  </body>
+</html>`;
 
     return res.json({
       status: false,
       message: "url hợp lệ",
-      body: currentDomain + "/output.pdf",
+      body: html,
     });
   }
 );
