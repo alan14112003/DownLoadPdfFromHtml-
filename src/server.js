@@ -5,6 +5,7 @@ const multer = require("multer");
 const upload = multer({ dest: "src/uploads/" });
 const cors = require("cors");
 const fs = require("fs");
+const sharp = require("sharp");
 
 function isValidUrl(input = "") {
   return !!input.includes("://elib.vku.udn.vn:8080/ViewPDFOnline/document.php");
@@ -48,13 +49,16 @@ app.post(
     const images = req.files;
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream(__dirname + "/public/output.pdf"));
+
+    const metadata = await sharp(imagePath).metadata();
+    doc.addPage({ with: metadata.width, height: metadata.height });
+
     for (const image of images) {
       doc.image(image.path, 0, 0, {
         align: "center",
         valign: "center",
         width: "595.28",
       });
-      doc.addPage();
     }
     doc.end();
 
