@@ -50,10 +50,9 @@ app.post(
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream(__dirname + "/public/output.pdf"));
 
-    const metadata = await sharp(imagePath).metadata();
-    doc.addPage({ with: metadata.width, height: metadata.height });
-
     for (const image of images) {
+      const metadata = await sharp(image.path).metadata();
+      doc.addPage({ with: metadata.width, height: metadata.height });
       doc.image(image.path, 0, 0, {
         align: "center",
         valign: "center",
