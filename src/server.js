@@ -1,18 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "/uploads");
-  },
-  // filename: function (req, file, cb) {
-  //   cb(null, file.originalname);
-  // },
-});
-const upload = multer({
-  storage: storage,
-});
+const upload = multer({ dest: "src/uploads/" });
 const cors = require("cors");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
@@ -59,11 +48,7 @@ app.post(
     const images = req.files;
 
     for (const image of images) {
-      console.log(image);
-      fs.copyFileSync(
-        __dirname + "/uploads" + image.originalname,
-        "src/public/images"
-      );
+      fs.copyFileSync(image.path, __dirname + "/public/images");
     }
 
     // const browser = await puppeteer.launch();
