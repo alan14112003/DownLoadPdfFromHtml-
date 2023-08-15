@@ -57,6 +57,7 @@ app.post(
     const images = req.files;
 
     for (const image of images) {
+      console.log(image);
       fs.copyFileSync(
         __dirname + "/uploads" + image.originalname,
         "src/public/images"
