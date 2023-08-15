@@ -9,7 +9,7 @@
     xin chào mọi người nhập url trang cần down load pdf:
     <input type="text" name="url" id="form-url" />
     <button>Oke</button>
-    <script>
+    <!-- <script>
       async function convertCanvasToImage(canvas) {
         imageDataUrl = canvas.toDataURL("image/png");
         const blobData = await (await fetch(imageDataUrl)).blob();
@@ -38,6 +38,13 @@
         console.log(data);
       };
       main();
+    </script> -->
+
+    <script>
+      const main = async () => {
+        const data = await fetch("/images").then((res) => res.json());
+        console.log(data);
+      };
     </script>
   </body>
 </html>

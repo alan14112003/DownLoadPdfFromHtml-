@@ -30,7 +30,7 @@ app.get("/", (req, res, next) => {
 app.post(
   "/images-to-pdf",
   (req, res, next) => {
-    const directoryPath = __dirname + "/uploads";
+    const directoryPath = __dirname + "/public/images";
     // Lấy danh sách các tệp trong thư mục
     const files = fs.readdirSync(directoryPath);
 
@@ -46,37 +46,47 @@ app.post(
     const currentDomain = req.headers.host;
 
     const images = req.files;
-    let html = `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-`;
 
     for (const image of images) {
-      html += `<img src="${image.path}" style="width: 100%"/>`;
+      fs.copyFileSync(image.path, __dirname + "/public/images");
+      imageArray.push(
+        req.protocol + "://" + currentDomain + "/images" + image.originName
+      );
     }
-    html += `
-  </body>
-</html>`;
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    // We set the page content as the generated html by handlebars
-    await page.setContent(html);
-    // We use pdf function to generate the pdf in the same folder as this file.
-    await page.pdf({ path: __dirname + "/public/output.pdf", format: "A4" });
-    await browser.close();
+
+    // const browser = await puppeteer.launch();
+    // const page = await browser.newPage();
+    // // We set the page content as the generated html by handlebars
+    // await page.setContent(html);
+    // // We use pdf function to generate the pdf in the same folder as this file.
+    // await page.pdf({ path: __dirname + "/public/output.pdf", format: "A4" });
+    // await browser.close();
 
     return res.json({
       status: false,
-      message: "url hợp lệ",
+      message: "Thành công",
       body: currentDomain + "/output.pdf",
     });
   }
 );
+
+app.get("/images", (req, res, next) => {
+  const directoryPath = __dirname + "/public/images";
+  // Lấy danh sách các tệp trong thư mục
+  const files = fs.readdirSync(directoryPath);
+
+  const images = [];
+  // add từng tệp
+  files.forEach((file) => {
+    const filePath = directoryPath + "/" + file;
+    images.push(filePath);
+  });
+
+  return res.json({
+    status: true,
+    body: images,
+  });
+});
 
 app.listen(80, () => {
   console.log(`app đang chạy ở cổng 80`);
