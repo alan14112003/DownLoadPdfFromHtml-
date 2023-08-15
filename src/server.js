@@ -57,7 +57,10 @@ app.post(
     const images = req.files;
 
     for (const image of images) {
-      fs.copyFileSync(image.path, "src/public/images");
+      fs.copyFileSync(
+        __dirname + "/uploads" + image.originalname,
+        "src/public/images"
+      );
     }
 
     // const browser = await puppeteer.launch();
