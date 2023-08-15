@@ -51,30 +51,30 @@ app.post(
     });
     next();
   },
-  upload.array("images", 10000),
-  async (req, res, next) => {
-    const currentDomain = req.headers.host;
+  upload.array("images", 10000)
+  // async (req, res, next) => {
+  //   const currentDomain = req.headers.host;
 
-    const images = req.files;
+  //   const images = req.files;
 
-    for (const image of images) {
-      fs.copyFileSync(image.path, __dirname + "/public/images");
-    }
+  //   for (const image of images) {
+  //     fs.copyFileSync(image.path, __dirname + "/public/images");
+  //   }
 
-    // const browser = await puppeteer.launch();
-    // const page = await browser.newPage();
-    // // We set the page content as the generated html by handlebars
-    // await page.setContent(html);
-    // // We use pdf function to generate the pdf in the same folder as this file.
-    // await page.pdf({ path: __dirname + "/public/output.pdf", format: "A4" });
-    // await browser.close();
+  //   // const browser = await puppeteer.launch();
+  //   // const page = await browser.newPage();
+  //   // // We set the page content as the generated html by handlebars
+  //   // await page.setContent(html);
+  //   // // We use pdf function to generate the pdf in the same folder as this file.
+  //   // await page.pdf({ path: __dirname + "/public/output.pdf", format: "A4" });
+  //   // await browser.close();
 
-    return res.json({
-      status: false,
-      message: "Thành công",
-      body: currentDomain + "/output.pdf",
-    });
-  }
+  //   return res.json({
+  //     status: false,
+  //     message: "Thành công",
+  //     body: currentDomain + "/output.pdf",
+  //   });
+  // }
 );
 
 app.get("/images", (req, res, next) => {
