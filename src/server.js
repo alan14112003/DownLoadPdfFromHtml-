@@ -49,9 +49,6 @@ app.post(
 
     for (const image of images) {
       fs.copyFileSync(image.path, __dirname + "/public/images");
-      imageArray.push(
-        req.protocol + "://" + currentDomain + "/images" + image.originName
-      );
     }
 
     // const browser = await puppeteer.launch();
